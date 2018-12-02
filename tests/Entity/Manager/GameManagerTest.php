@@ -10,9 +10,14 @@
 
 namespace Tests\Entity\Manager;
 
+use App\Entity\Game;
 use App\Entity\Manager\GameManager;
+use App\Entity\Question;
+use App\Service\CustomObjectNormalizer;
 use App\Service\Redis;
+use App\Service\Tmdb;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -26,7 +31,12 @@ class GameManagerTest extends TestCase
 
     private function getSerializer()
     {
-        return new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
+        return new Serializer([new ObjectNormalizer(null, null, null, new ReflectionExtractor())], [new JsonEncoder()]);
+    }
+
+    private function getTmbdService()
+    {
+        return new Tmdb();
     }
 
     public function testFindGame()
@@ -60,5 +70,29 @@ class GameManagerTest extends TestCase
         $gameFindedSerialized = $serializer->serialize($gameFinded, 'json');
 
         $this->assertEquals($gameSerialized, $gameFindedSerialized);
+    }
+
+    public function testSerializeAndDeserializeGame()
+    {
+        $gameManager = $this->createGameManager();
+        $serializer = $this->getSerializer();
+        $tmdb = $this->getTmbdService();
+
+        $game = $gameManager->createGame();
+
+        list($movie, $wrongMovie) = $tmdb->getMoviesWithCredits();
+
+        $play = (new Question())
+            ->setMovie($movie['movie'])
+            ->setChoices(array_merge([$movie['cast']], [$wrongMovie['cast']]))
+            ->setAnswer($movie['cast']['id']);
+
+        $game->setCurrentQuestion($play);
+
+        $gameSerialize = $serializer->serialize($game, 'json');
+        dump($gameSerialize);
+        $gameDeserialize = $serializer->deserialize($gameSerialize, Game::class, 'json', ['disable_type_enforcement' => true]);
+
+        $this->assertEquals($game, $gameDeserialize);
     }
 }

@@ -22,11 +22,17 @@ class Game
      */
     private $completed;
 
+    /**
+     * @var Question
+     */
+    private $currentQuestion;
+
     public function __construct($uuid)
     {
         $this->uuid = $uuid;
         $this->score = 0;
         $this->completed = false;
+        $this->currentQuestion = null;
     }
 
     public function getUuid(): ?string
@@ -62,6 +68,17 @@ class Game
     {
         $this->completed = $completed;
 
+        return $this;
+    }
+
+    public function getCurrentQuestion(): ?Question
+    {
+        return $this->currentQuestion;
+    }
+
+    public function setCurrentQuestion(Question $currentQuestion): Game
+    {
+        $this->currentQuestion = $currentQuestion;
         return $this;
     }
 }

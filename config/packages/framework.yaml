@@ -17,6 +17,9 @@ framework:
     serializer:
         enabled: true
 
+    property_info:
+        enabled: true
+
     cache:
         # Put the unique name of your app here: the prefix seed
         # is used to compute stable namespaces for cache keys.

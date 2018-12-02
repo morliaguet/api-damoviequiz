@@ -44,6 +44,18 @@
             "ref": "258300d52be6ad59b32a888d5ddafbf9638540ff"
         }
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.4.2"
+    },
+    "kevinrob/guzzle-cache-middleware": {
+        "version": "v2.1.1"
+    },
     "myclabs/deep-copy": {
         "version": "1.8.1"
     },
@@ -52,6 +64,9 @@
     },
     "phar-io/version": {
         "version": "1.0.1"
+    },
+    "php-tmdb/api": {
+        "version": "2.1.16"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -101,6 +116,9 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/log": {
         "version": "1.1.0"
     },
@@ -109,6 +127,9 @@
     },
     "ramsey/uuid": {
         "version": "3.8.0"
+    },
+    "rtheunissen/guzzle-log-middleware": {
+        "version": "v0.4.1"
     },
     "sebastian/code-unit-reverse-lookup": {
         "version": "1.0.1"
@@ -233,6 +254,9 @@
     "symfony/process": {
         "version": "v4.1.8"
     },
+    "symfony/profiler-pack": {
+        "version": "v1.0.3"
+    },
     "symfony/property-access": {
         "version": "v4.1.8"
     },
@@ -256,6 +280,9 @@
     },
     "symfony/serializer-pack": {
         "version": "v1.0.1"
+    },
+    "symfony/stopwatch": {
+        "version": "v4.1.8"
     },
     "symfony/templating": {
         "version": "v4.1.8"
@@ -292,6 +319,15 @@
     },
     "symfony/var-dumper": {
         "version": "v4.1.8"
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
+        }
     },
     "symfony/web-server-bundle": {
         "version": "3.3",

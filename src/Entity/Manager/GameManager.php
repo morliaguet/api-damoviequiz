@@ -3,11 +3,12 @@
 namespace App\Entity\Manager;
 
 use App\Entity\Game;
+use App\Service\CustomObjectNormalizer;
 use App\Service\Redis;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 class GameManager
@@ -31,22 +32,22 @@ class GameManager
     {
         $this->redis = $redis;
         $this->prefix = 'game:';
-        $this->serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
+        $this->serializer = new Serializer([new CustomObjectNormalizer(null, null, null, new ReflectionExtractor())], [new JsonEncoder()]);
     }
 
     /**
      * @param $uuid
-     * @return Game
+     * @return Game|null
      */
     public function findGame($uuid)
     {
         $game = $this->redis->get($this->prefix . $uuid);
 
         if (null === $game) {
-            throw new ResourceNotFoundException('Game does not exist');
+            return $game;
         }
 
-        return $this->serializer->deserialize($game, Game::class, 'json');
+        return $this->serializer->deserialize($game, Game::class, 'json', ['disable_type_enforcement' => true]);
     }
 
     /**
