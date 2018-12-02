@@ -109,7 +109,7 @@ class GameController extends FOSRestController
     /**
      *
      * @Rest\Post("/game/{uuid}/play")
-     * @Rest\QueryParam(name="answer", requirements="\d+")
+     * @Rest\RequestParam(name="answer", requirements="\d+")
      * @Rest\View
      *
      * @param Game $game the game uuid
@@ -129,7 +129,9 @@ class GameController extends FOSRestController
 
         $currentQuestion = $game->getCurrentQuestion();
         if ($currentQuestion && $currentQuestion->getAnswer() === $answer) {
-            $game->increaseScore();
+            $game
+                ->increaseScore()
+                ->setCurrentQuestion(null);
         } else {
             $game->setCompleted(true);
         }

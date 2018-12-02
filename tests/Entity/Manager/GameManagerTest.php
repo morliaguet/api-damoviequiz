@@ -19,7 +19,6 @@ use App\Service\Tmdb;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 class GameManagerTest extends TestCase
@@ -31,7 +30,7 @@ class GameManagerTest extends TestCase
 
     private function getSerializer()
     {
-        return new Serializer([new ObjectNormalizer(null, null, null, new ReflectionExtractor())], [new JsonEncoder()]);
+        return new Serializer([new CustomObjectNormalizer(null, null, null, new ReflectionExtractor())], [new JsonEncoder()]);
     }
 
     private function getTmbdService()
@@ -90,8 +89,7 @@ class GameManagerTest extends TestCase
         $game->setCurrentQuestion($play);
 
         $gameSerialize = $serializer->serialize($game, 'json');
-        dump($gameSerialize);
-        $gameDeserialize = $serializer->deserialize($gameSerialize, Game::class, 'json', ['disable_type_enforcement' => true]);
+        $gameDeserialize = $serializer->deserialize($gameSerialize, Game::class, 'json');
 
         $this->assertEquals($game, $gameDeserialize);
     }

@@ -10,6 +10,13 @@ class CustomObjectNormalizer extends ObjectNormalizer
     {
         $data = parent::normalize($object, $format, $context);
 
+        $data = array_map(function($value) {
+            if (is_numeric($value)) {
+                $value = (int)$value;
+            }
+            return $value;
+        }, $data);
+
         return array_filter($data, function ($value) {
             return null !== $value;
         });

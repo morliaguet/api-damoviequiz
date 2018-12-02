@@ -76,7 +76,7 @@ class Game
         return $this->currentQuestion;
     }
 
-    public function setCurrentQuestion(Question $currentQuestion): Game
+    public function setCurrentQuestion(?Question $currentQuestion): Game
     {
         $this->currentQuestion = $currentQuestion;
         return $this;
